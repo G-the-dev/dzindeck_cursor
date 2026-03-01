@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const figtree = Figtree({
@@ -53,6 +54,7 @@ export default function RootLayout({
     <html lang="en" className={figtree.variable}>
       <body className="font-figtree bg-page text-primary antialiased">
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
