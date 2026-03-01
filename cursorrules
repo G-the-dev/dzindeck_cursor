@@ -1,0 +1,306 @@
+# DZINDECK — CURSOR RULES (COMPLETE DESIGN SYSTEM)
+# Place this file in the ROOT of your project: C:\Downloads\Dzindeck_Cursor\.cursorrules
+# GitHub repo: dzindeck_cursor
+
+You are building **Dzindeck** — a curated, design-first event discovery platform for India.
+Tech stack: Next.js 14+ (App Router), TypeScript, Tailwind CSS, Supabase.
+
+---
+
+## DESIGN SYSTEM — STRICT COMPLIANCE
+
+You MUST match the Figma designs EXACTLY. Do NOT improvise colors, spacing, fonts, or sizes.
+Every value below comes directly from Figma styles and variables. Use them precisely.
+Always use the SEMANTIC token names (e.g., `bg-page`, `text-primary`) instead of raw hex values.
+
+---
+
+## 1. COLOR SYSTEM
+
+### Brand Colors Scale (Figma Variables)
+
+| Variable        | Hex       |
+|-----------------|-----------|
+| Brand Colors/50  | #F1F2F4  |
+| Brand Colors/100 | #C9CBD2  |
+| Brand Colors/200 | #8A8D94  |
+| Brand Colors/300 | #56585E  |
+| Brand Colors/400 | #3A3B40  |
+| Brand Colors/500 | #2E2F33  |
+| Brand Colors/600 | #242528  |
+| Brand Colors/700 | #1B1C1F  |
+| Brand Colors/800 | #141416  |
+| Brand Colors/900 | #0E0E10  |
+
+### Background Tokens (Figma Color Styles → Background)
+
+USE THESE for all background colors. Do NOT use raw gray values.
+
+| Semantic Name  | Figma Style         | Variable           | Hex       | Tailwind Class   |
+|----------------|---------------------|--------------------|-----------|-----------------:|
+| Page           | Background/Page     | Brand Colors/900   | #0E0E10   | `bg-page`        |
+| App            | Background/App      | Brand Colors/800   | #141416   | `bg-app`         |
+| Surface        | Background/Surface  | Brand Colors/700   | #1B1C1F   | `bg-surface`     |
+| Elevated       | Background/Elevated | Brand Colors/600   | #242528   | `bg-elevated`    |
+| Hover          | Background/Hover    | Brand Colors/500   | #2E2F33   | `bg-hover`       |
+| Strong         | Background/Strong   | Brand Colors/300   | #56585E   | `bg-strong`      |
+
+### Text Tokens (Figma Color Styles → Text)
+
+USE THESE for all text colors. Do NOT use raw gray values.
+
+| Semantic Name  | Figma Style       | Variable           | Hex       | Tailwind Class     |
+|----------------|-------------------|--------------------|-----------|--------------------|
+| Primary        | Text/Primary      | Brand Colors/50    | #F1F2F4   | `text-primary`     |
+| Secondary      | Text/Secondary    | Brand Colors/100   | #C9CBD2   | `text-secondary`   |
+| Tertiary       | Text/Tertiary     | Brand Colors/900   | #0E0E10   | `text-tertiary`    |
+| Muted          | Text/Muted        | Brand Colors/200   | #8A8D94   | `text-muted`       |
+| Disabled       | Text/Disabled     | Brand Colors/400   | #3A3B40   | `text-disabled`    |
+
+### Border Tokens (Figma Color Styles → Border)
+
+| Semantic Name  | Figma Style        | Variable           | Hex       | Tailwind Class       |
+|----------------|--------------------|--------------------|-----------|----------------------|
+| Default        | Border/Default     | Brand Colors/600   | #242528   | `border-default`     |
+| Hovered        | Border/Hovered     | Brand Colors/400   | #3A3B40   | `border-hovered`     |
+| Focused        | Border/Focused     | Brand Colors/50    | #F1F2F4   | `border-focused`     |
+| Disabled       | Border/Disabled    | Brand Colors/700   | #1B1C1F   | `border-disabled`    |
+
+### State Tokens (Figma Color Styles → State)
+
+Use for interactive element backgrounds (buttons, toggles, inputs, etc.)
+
+| Semantic Name  | Figma Style      | Variable           | Hex       | Tailwind Class      |
+|----------------|------------------|--------------------|-----------|---------------------|
+| Default        | State/Default    | Brand Colors/700   | #1B1C1F   | `bg-state-default`  |
+| Hovered        | State/Hovered    | Brand Colors/500   | #2E2F33   | `bg-state-hovered`  |
+| Pressed        | State/Pressed    | Brand Colors/600   | #242528   | `bg-state-pressed`  |
+| Active         | State/Active     | Brand Colors/400   | #3A3B40   | `bg-state-active`   |
+| Disabled       | State/Disabled   | Brand Colors/800   | #141416   | `bg-state-disabled` |
+| Focused        | State/Focused    | Brand Colors/50    | #F1F2F4   | `bg-state-focused`  |
+
+### Tone Tokens (Figma Color Styles → Tone)
+
+Use for status indicators, badges, alerts, validation.
+
+| Semantic Name  | Figma Style    | Variable       | Tailwind Class    |
+|----------------|----------------|----------------|-------------------|
+| Increase       | Tone/Increase  | Success/500    | `text-increase` / `bg-increase` |
+| Neutral        | Tone/Neutral   | Neutral/400    | `text-neutral-tone` / `bg-neutral-tone` |
+| Decrease       | Tone/Decrease  | Warning/500    | `text-decrease` / `bg-decrease` |
+
+### B&W
+- Pure White: #FFFFFF → `white`
+- Pure Black: #000000 → `black`
+
+---
+
+## 2. TYPOGRAPHY
+
+Font family: **Figtree** (Google Fonts) — NEVER use any other font.
+
+### Type Scale (Figma Variables → Typography — EXACT VALUES)
+
+Each size level has weight variants. Line heights and letter spacing are EXACT from Figma variables.
+
+| Figma Style         | Size  | Line Height | Letter Spacing | Available Weights                                              |
+|---------------------|-------|-------------|----------------|---------------------------------------------------------------|
+| Extra Tiny 10       | 10px  | 12px        | 0              | Regular, Medium, SemiBold, Bold                                |
+| Tiny 12             | 12px  | 16px        | 0              | Regular, Medium, SemiBold, Bold                                |
+| Small 14            | 14px  | 20px        | 0              | Regular, Medium, SemiBold, Bold                                |
+| Regular 16          | 16px  | 24px        | 0              | Regular, Medium, SemiBold, Bold                                |
+| Medium 20           | 20px  | 28px        | 0              | Light, Regular, Medium (Sub heading), SemiBold (Card-Title), Bold, ExtraBold, Black |
+| Medium 24           | 24px  | 30px        | -0.15px        | Regular, Medium, SemiBold, Bold                                |
+| Large 32            | 32px  | 38px        | -0.2px         | Regular, Medium, SemiBold, Bold                                |
+| Large 40            | 40px  | 48px        | -0.3px         | Regular, Medium, SemiBold, Bold                                |
+| Extra Large 48      | 48px  | 58px        | -0.4px         | Regular, Medium, SemiBold, Bold                                |
+| Title 72            | 72px  | 84px        | -0.8px         | Regular, Medium, SemiBold, Bold                                |
+
+### Named Typography Variants (Medium 20 group)
+- `Regular` → font-normal (400), 20/28
+- `Sub heading Medium` → font-medium (500), 20/28
+- `Card-Title SemiBold` → font-semibold (600), 20/28
+- `Bold` → font-bold (700), 20/28
+- `ExtraBold` → font-extrabold (800), 20/28
+- `Light` → font-light (300), 20/28
+- `Black` → font-black (900), 20/28
+
+### Tailwind Mapping
+```
+text-extra-tiny  → 10px / 12px line-height
+text-tiny        → 12px / 16px line-height
+text-small       → 14px / 20px line-height
+text-regular     → 16px / 24px line-height
+text-medium      → 20px / 28px line-height
+text-medium-lg   → 24px / 30px line-height, -0.15px tracking
+text-large       → 32px / 38px line-height, -0.2px tracking
+text-large-xl    → 40px / 48px line-height, -0.3px tracking
+text-extra-large → 48px / 58px line-height, -0.4px tracking
+text-title       → 72px / 84px line-height, -0.8px tracking
+```
+All line-heights and letter-spacing are baked into the Tailwind fontSize config.
+Just use the class — no need for separate leading-* or tracking-* classes.
+
+---
+
+## 3. SYSTEM TOKENS
+
+### Spacing (19 tokens — Figma Variables → System → Size → Spacing — EXACT)
+```
+0, 2, 4, 8, 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72, 80, 100
+```
+Use exact values: `p-[16px]`, `gap-[24px]`, `mt-[60px]`
+NOTE: 6px is NOT a spacing token. 14px and 28px ARE tokens.
+
+### Radius (12 tokens — Figma Variables → System → Size → Radius — EXACT)
+Use exact border-radius from Figma. Values:
+```
+0, 2, 4, 6, 8, 12, 16, 24, 32, 40, 48, full (9999)
+```
+Use: `rounded-lg` (12px), `rounded-full`, `rounded-[48px]`
+NOTE: 20px is NOT a radius token. 48px IS a token.
+
+### Stroke (4 tokens — Figma Variables → System → Size → Stroke — EXACT)
+```
+Stroke/100: 1px
+Stroke/200: 1.2px
+Stroke/300: 1.6px
+Stroke/Focus ring: 2px
+```
+Use: `border` (1px), `border-[1.2px]`, `border-[1.6px]`, `border-2` (focus ring)
+
+---
+
+## 4. EFFECT STYLES
+
+### Nav-bar-BG blur
+Navbar glassmorphism effect.
+```css
+backdrop-blur-[40px]
+/* Combine with semi-transparent background, e.g.: */
+/* bg-app/80 backdrop-blur-[40px] */
+```
+Tailwind: `backdrop-blur-[40px]`
+
+### Tag-blur
+Background blur for tags/badges.
+```css
+backdrop-blur-[10px]
+```
+Tailwind: `backdrop-blur-[10px]`
+
+### Primary-btn
+Double drop shadow for primary buttons.
+```css
+shadow-[0px_10px_24px_0px_rgba(87,87,87,0.35),0px_10px_24px_0px_rgba(87,87,87,0.35)]
+```
+Tailwind: `shadow-primary-btn` (defined in tailwind.config.ts)
+
+### Hero-btn
+Premium layered glow for Hero CTA button. Description: "Used for Hero, CTA"
+8 layers: 1× Background blur + 5× Drop shadow + 2× Inner shadow
+```
+Background blur: 4px
+Drop shadows (cascading soft glow):
+  - X:0 Y:94 Blur:26 #C8C8C8/0%   (ambient)
+  - X:0 Y:60 Blur:24 #C8C8C8/3%   (far soft)
+  - X:0 Y:34 Blur:20 #C8C8C8/10%  (mid glow)
+  - X:0 Y:16 Blur:16 #C8C8C8/17%  (near glow)
+  - X:0 Y:4  Blur:8  #C8C8C8/19%  (tight glow)
+Inner shadows (depth/bevel):
+  - X:-10 Y:-10 Blur:20 #303030/10% (dark edge)
+  - X:10  Y:10  Blur:16 #FFFFFF/15% (light edge)
+```
+Tailwind: `shadow-hero-btn backdrop-blur-[4px]` (defined in tailwind.config.ts)
+
+---
+
+## 5. RESPONSIVE BREAKPOINTS (Figma Variables → Responsive)
+
+| Breakpoint | Width  | Prefix    | H Padding | V Padding | Container | Menu Items | Menu Icon | Gesture | Phone Bar |
+|------------|--------|-----------|-----------|-----------|-----------|------------|-----------|---------|-----------|
+| Phone      | 412px  | default   | 16px      | 16px      | 380px     | False      | True      | True    | True      |
+| Tablet     | 768px  | `md:`     | 32px      | 32px      | 704px     | False      | True      | True    | True      |
+| Macbook    | 1440px | `lg:`     | 64px      | 64px      | 1312px    | True       | False     | False   | False     |
+| Desktop    | 1920px | `xl:`     | 64px      | 64px      | 1792px    | True       | False     | False   | False     |
+
+### Responsive Container Pattern:
+```tsx
+<div className="w-full max-w-[380px] md:max-w-[704px] lg:max-w-[1312px] xl:max-w-[1792px] mx-auto px-[16px] md:px-[32px] lg:px-[64px]">
+  {children}
+</div>
+```
+
+### Navbar Pattern:
+- Phone & Tablet → Hamburger menu icon, no inline nav links
+- Macbook & Desktop → Inline nav links, no hamburger
+
+---
+
+## 6. CODING RULES
+
+### Component Architecture
+- Use **server components** by default
+- Use `'use client'` ONLY when needed (onClick, useState, forms, animations)
+- Keep components small, reusable, typed with TypeScript
+- Match Figma component names where possible (e.g., EventCard, NavBar, Badge)
+
+### Styling Rules
+- Use **Tailwind CSS ONLY** — no inline styles, no CSS modules, no styled-components
+- Use semantic token classes from `tailwind.config.ts` (e.g., `bg-page`, `text-primary`, `border-default`)
+- When Figma has an exact value not in Tailwind defaults, use arbitrary values: `text-[32px]`, `p-[64px]`
+- **Mobile-first**: base styles for Phone (412px), scale up with `md:`, `lg:`, `xl:`
+- NEVER add colors, shadows, or decorative elements not in the Figma design
+
+### File Structure
+```
+src/
+├── app/
+│   ├── layout.tsx              (root layout — Figtree font, metadata)
+│   ├── page.tsx                (landing page)
+│   ├── globals.css             (base styles, custom components)
+│   ├── (auth)/
+│   │   ├── sign-in/page.tsx
+│   │   ├── sign-up/page.tsx
+│   │   └── reset-password/page.tsx
+│   └── (dashboard)/
+│       ├── events/page.tsx     (view all events)
+│       ├── event/[id]/page.tsx (event detail)
+│       └── search/page.tsx     (search + filters)
+├── components/
+│   ├── ui/                     (Button, Input, Badge, Card, Tag)
+│   ├── layout/                 (Navbar, Footer, Container, PageWrapper)
+│   └── sections/               (Hero, Features, Stats, Categories, CTA, HowItWorks)
+├── lib/
+│   ├── supabase.ts
+│   └── utils.ts
+└── types/
+    └── index.ts
+```
+
+### Design Direction
+- **Editorial dark** aesthetic — NOT generic SaaS
+- **Premium and minimal** — clean whitespace, structured hierarchy
+- **Neutral-driven** — NO loud colors, no gradients unless explicitly in Figma
+- No shadows unless explicitly defined in Figma effect styles
+- The product should feel like a **curated design culture layer**
+
+### When Converting From Figma
+1. ALWAYS use the Figma MCP to fetch exact design data
+2. Use SEMANTIC token classes (`bg-surface`, `text-muted`, `border-default`) not raw hex
+3. Match spacing pixel-for-pixel
+4. Match typography exactly — size, weight, color, line-height
+5. Implement ALL 4 responsive breakpoints
+6. Reuse components — if a pattern repeats in Figma, make it a React component
+7. Match exact border-radius values from Figma
+8. Do NOT add decorative elements not present in the design
+9. Do NOT change the visual hierarchy or layout
+10. Test at all breakpoints: 412px, 768px, 1440px, 1920px
+
+### Accessibility
+- Semantic HTML: nav, main, section, article, aside, footer
+- Proper heading hierarchy: h1 → h2 → h3 (one h1 per page)
+- Alt text on all images
+- focus-visible states using `border-focused` token
+- aria-labels on icon-only buttons
+- Keyboard navigation support
