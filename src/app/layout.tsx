@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -51,8 +52,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={figtree.variable}>
-      <body className="font-figtree bg-page text-primary antialiased">
-        {children}
+      <body 
+        className="bg-[#0E0E10] text-[#F1F2F4] antialiased"
+        style={{ fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}
+      >
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

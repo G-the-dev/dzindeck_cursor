@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { Container } from "./Container";
+import { useAuth } from "@/contexts/AuthContext";
 
 const NAV_LINKS = [
   { label: "Home", href: "/", active: true },
@@ -13,12 +14,21 @@ const NAV_LINKS = [
   { label: "Events", href: "/events", hasDropdown: true },
 ];
 
+const LOGGED_IN_NAV_LINKS = [
+  { label: "Home", href: "/", active: true },
+  { label: "My Events", href: "/my-events" },
+  { label: "Designathons", href: "/designathons" },
+  { label: "Workshops", href: "/workshops" },
+  { label: "Meetups", href: "/meetups", hasDropdown: true },
+];
+
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const { isLoggedIn, user, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50">
@@ -39,7 +49,7 @@ export function Navbar() {
             >
               <div className="w-10 h-10 relative flex items-center justify-center">
                 <Image
-                  src="/assets/DD Logo SVG.svg"
+                  src="/assets/SVGs/Logo.svg"
                   alt="Dzindeck"
                   width={40}
                   height={42}
@@ -85,7 +95,7 @@ export function Navbar() {
 
             {/* Nav Links - Macbook & Desktop only */}
             <div className="hidden lg:flex flex-row justify-center items-center gap-1">
-              {NAV_LINKS.map((link) => (
+              {(isLoggedIn ? LOGGED_IN_NAV_LINKS : NAV_LINKS).map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
@@ -114,25 +124,51 @@ export function Navbar() {
 
             {/* Sign In + CTA - Macbook/Desktop only (lg+); Phone/Tablet see in hamburger menu */}
             <div className="hidden lg:flex flex-row justify-end items-center gap-6">
-              <Link
-                href="/sign-in"
-                className="text-regular font-bold text-primary hover:text-secondary"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/organize"
-                className="flex flex-row justify-center items-center gap-2 px-6 py-4 rounded-xl bg-primary text-tertiary text-regular font-bold border border-[1.2px] border-border-default shadow-primary-btn"
-              >
-                Organize an Event
-              </Link>
+              {isLoggedIn ? (
+                <>
+                  {/* User Avatar */}
+                  <div className="flex items-center gap-3">
+                    <div 
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-[16px] font-bold"
+                      style={{ 
+                        background: '#1B1C1F',
+                        border: '1px solid #242528',
+                        color: '#F1F2F4'
+                      }}
+                    >
+                      {user?.fullName?.charAt(0).toUpperCase() || 'U'}
+                    </div>
+                    <button
+                      onClick={logout}
+                      className="text-regular font-bold text-primary hover:text-secondary"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/signin"
+                    className="text-regular font-bold text-primary hover:text-secondary"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/organize"
+                    className="flex flex-row justify-center items-center gap-2 px-6 py-4 rounded-xl bg-primary text-tertiary text-regular font-bold border border-[1.2px] border-border-default shadow-primary-btn"
+                  >
+                    Organize an Event
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
           {/* Mobile menu dropdown */}
           {menuOpen && (
             <div className="flex lg:hidden flex-col gap-2 pt-4 mt-2 border-t border-border-default">
-              {NAV_LINKS.map((link) => (
+              {(isLoggedIn ? LOGGED_IN_NAV_LINKS : NAV_LINKS).map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
@@ -148,20 +184,49 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="flex flex-col gap-2 pt-2">
-                <Link
-                  href="/sign-in"
-                  className="px-5 py-4 rounded-xl text-regular font-bold text-primary"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href="/organize"
-                  className="px-6 py-4 rounded-xl bg-primary text-tertiary text-regular font-bold text-center"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Organize an Event
-                </Link>
+                {isLoggedIn ? (
+                  <>
+                    <div className="flex items-center gap-3 px-5 py-4">
+                      <div 
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-[16px] font-bold"
+                        style={{ 
+                          background: '#1B1C1F',
+                          border: '1px solid #242528',
+                          color: '#F1F2F4'
+                        }}
+                      >
+                        {user?.fullName?.charAt(0).toUpperCase() || 'U'}
+                      </div>
+                      <span className="text-regular font-medium text-primary">{user?.fullName}</span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        logout();
+                        setMenuOpen(false);
+                      }}
+                      className="px-5 py-4 rounded-xl text-regular font-bold text-primary text-left"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/signin"
+                      className="px-5 py-4 rounded-xl text-regular font-bold text-primary"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      href="/organize"
+                      className="px-6 py-4 rounded-xl bg-primary text-tertiary text-regular font-bold text-center"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Organize an Event
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           )}
