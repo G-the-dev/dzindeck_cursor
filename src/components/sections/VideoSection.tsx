@@ -12,14 +12,12 @@ const VIDEO_TABS = [
 export function VideoSection() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [activeTab, setActiveTab] = useState("meetups");
+  const [activeTab, setActiveTab] = useState("workshops");
 
   const handlePlay = () => {
     if (!videoRef.current) return;
-    const playPromise = videoRef.current.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {});
-    }
+    const promise = videoRef.current.play();
+    if (promise !== undefined) promise.catch(() => {});
   };
 
   return (
@@ -27,19 +25,16 @@ export function VideoSection() {
       <div className="w-full max-w-[380px] md:max-w-[704px] lg:max-w-[1312px] xl:max-w-[1240px] mx-auto">
         {/* Outer card */}
         <div
-          className="relative w-full rounded-[32px] p-[16px]"
+          className="relative w-full rounded-[32px] p-[16px] flex flex-col gap-[16px]"
           style={{
             background: '#141416',
             border: '1.2px solid #242528',
           }}
         >
-          {/* Video Frame */}
+          {/* Video Frame — standalone, no tabs inside */}
           <div
             className="relative w-full rounded-[24px] overflow-hidden"
-            style={{
-              aspectRatio: '16/9',
-              background: '#0E0E10',
-            }}
+            style={{ aspectRatio: '16/9', background: '#0E0E10' }}
           >
             <video
               ref={videoRef}
@@ -54,41 +49,45 @@ export function VideoSection() {
               onEnded={() => setIsPlaying(false)}
             />
 
-            {/* Play overlay */}
+            {/* Play overlay — centered in video */}
             {!isPlaying && (
               <button
                 type="button"
                 onClick={handlePlay}
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-row items-center gap-[10px] py-[8px] pl-[8px] pr-[16px] rounded-full"
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-row items-center gap-[10px] py-[10px] pl-[10px] pr-[20px] rounded-full"
                 style={{
-                  background: 'rgba(14,14,16,0.60)',
+                  background: 'rgba(30, 28, 24, 0.70)',
                   backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255,255,255,0.10)',
                 }}
                 aria-label="Play video"
               >
-                <div
-                  className="w-[40px] h-[40px] flex items-center justify-center rounded-full"
-                  style={{ background: 'rgba(241,242,244,0.15)' }}
+                {/* Play icon circle */}
+                <div className="w-[36px] h-[36px] rounded-full flex items-center justify-center flex-shrink-0"
+                  style={{ background: 'rgba(255,255,255,0.12)' }}
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#F1F2F4">
-                    <path d="M8 5v14l11-7L8 5z" />
-                  </svg>
+                  <img
+                    src="/assets/SVGs/Style=Fill, Icon=Play.svg"
+                    alt="Play"
+                    className="w-[20px] h-[20px]"
+                    style={{ filter: 'brightness(0) invert(1)' }}
+                  />
                 </div>
-                <span className="text-[16px] font-semibold text-[#F1F2F4]">
+                <span className="text-[15px] font-semibold text-[#F1F2F4] whitespace-nowrap">
                   Play Video
                 </span>
               </button>
             )}
+          </div>
 
-            {/* Bottom tabs inside video */}
+          {/* Tab bar — BELOW the video, inside the outer card */}
+          <div className="flex flex-row items-center justify-center gap-[4px]">
             <div
-              className="absolute bottom-[20px] left-1/2 -translate-x-1/2 flex flex-row items-center gap-[4px] p-[6px] rounded-[20px]"
+              className="flex flex-row items-center gap-[4px] p-[5px] rounded-[20px]"
               style={{
-                background: 'rgba(27,28,31,0.85)',
-                border: '1.2px solid #242528',
-                backdropFilter: 'blur(20px)',
-                whiteSpace: 'nowrap',
+                background: '#1B1C1F',
+                border: '1px solid #242528',
               }}
             >
               {VIDEO_TABS.map((tab) => {
@@ -97,26 +96,26 @@ export function VideoSection() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className="flex flex-row items-center gap-[8px] px-[16px] py-[10px] rounded-[14px] transition-all"
+                    className="flex flex-row items-center gap-[8px] px-[16px] py-[10px] rounded-[14px] transition-all duration-200"
                     style={{
                       background: isActive ? '#F1F2F4' : 'transparent',
                       color: isActive ? '#0E0E10' : '#C9CBD2',
-                      fontSize: '15px',
-                      fontWeight: isActive ? 700 : 500,
                     }}
                   >
                     <img
                       src={tab.iconSrc}
                       alt={tab.label}
-                      className="w-[18px] h-[18px]"
+                      className="w-[20px] h-[20px] flex-shrink-0"
                       style={{
                         objectFit: 'contain',
                         filter: isActive
                           ? 'brightness(0)'
-                          : 'brightness(0) invert(1) opacity(0.8)',
+                          : 'brightness(0) invert(1)',
                       }}
                     />
-                    {tab.label}
+                    <span className="text-[15px] font-semibold whitespace-nowrap">
+                      {tab.label}
+                    </span>
                   </button>
                 );
               })}

@@ -108,15 +108,17 @@ export function Navbar() {
                 >
                   {link.label}
                   {link.hasDropdown && (
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+                    <img
+                      src="/assets/SVGs/Style=Fill, Icon=Alt Down.svg"
+                      alt="dropdown"
+                      width={20}
+                      height={20}
                       className="shrink-0"
-                    >
-                      <path d="M5 7.5l5 5 5-5H5z" />
-                    </svg>
+                      style={{
+                        objectFit: 'contain',
+                        filter: 'brightness(0) invert(1)',
+                      }}
+                    />
                   )}
                 </Link>
               ))}

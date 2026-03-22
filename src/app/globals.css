@@ -412,18 +412,18 @@
    ============================================ */
 @keyframes scrollUp {
   from { transform: translateY(0); }
-  to { transform: translateY(-50%); }
+  to   { transform: translateY(-33.333%); }
 }
 
-@keyframes scrollUpOffset {
-  from { transform: translateY(-8%); }
-  to { transform: translateY(-58%); }
+@keyframes scrollDown {
+  from { transform: translateY(-33.333%); }
+  to   { transform: translateY(0); }
 }
 
 .animate-scroll-up {
   animation: scrollUp linear infinite;
 }
 
-.animate-scroll-up-offset {
-  animation: scrollUpOffset linear infinite;
+.animate-scroll-down {
+  animation: scrollDown linear infinite;
 }

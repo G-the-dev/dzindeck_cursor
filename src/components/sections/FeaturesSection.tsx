@@ -1,78 +1,84 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
 
+// Each feature has its own visual from the assets folder
 const FEATURES = [
   {
     id: 1,
     title: "Smart Event Discovery",
     description: "Find the right workshops, meetups, designathons, and tech events in seconds",
-    visual: "/assets/SVGs/Feature-images.svg",
+    visual: "/assets/Type=Visual 1.svg",
   },
   {
     id: 2,
     title: "Real-Time Verified Listings",
     description: "Every listing is screened so you don't waste time on mid, low-value events",
-    visual: "/assets/SVGs/Feature-images.svg",
+    visual: "/assets/Type=Visual 2.svg",
   },
   {
     id: 3,
     title: "One-Click Registrations",
     description: "Skip the PDFs and random links, register instantly in one smooth flow.",
-    visual: "/assets/SVGs/Feature-images.svg",
+    visual: "/assets/Type=Visual 3.svg",
   },
   {
     id: 4,
     title: "Smart Reminders & Alerts",
     description: "Bookmark events you like, we'll notify you when they're starting, filling up, or when similar ones go live",
-    visual: "/assets/SVGs/Feature-images.svg",
+    visual: "/assets/Type=Visual 4.svg",
   },
 ];
 
-const AUTO_ADVANCE_DURATION = 3000;
+const AUTO_ADVANCE_DURATION = 3500;
 
 export function FeaturesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
 
-  const nextFeature = useCallback(() => {
+  const goToNext = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % FEATURES.length);
     setProgress(0);
   }, []);
 
   useEffect(() => {
     let startTime: number | null = null;
-    let animationFrameId: number;
+    let rafId: number;
 
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
-      const newProgress = Math.min((elapsed / AUTO_ADVANCE_DURATION) * 100, 100);
-      setProgress(newProgress);
+    const tick = (ts: number) => {
+      if (!startTime) startTime = ts;
+      const elapsed = ts - startTime;
+      const pct = Math.min((elapsed / AUTO_ADVANCE_DURATION) * 100, 100);
+      setProgress(pct);
       if (elapsed < AUTO_ADVANCE_DURATION) {
-        animationFrameId = requestAnimationFrame(animate);
+        rafId = requestAnimationFrame(tick);
       }
     };
 
-    animationFrameId = requestAnimationFrame(animate);
-    const advanceTimer = setTimeout(nextFeature, AUTO_ADVANCE_DURATION);
+    rafId = requestAnimationFrame(tick);
+    const timer = setTimeout(goToNext, AUTO_ADVANCE_DURATION);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
-      clearTimeout(advanceTimer);
+      cancelAnimationFrame(rafId);
+      clearTimeout(timer);
     };
-  }, [activeIndex, nextFeature]);
+  }, [activeIndex, goToNext]);
+
+  const handleSelect = (index: number) => {
+    setActiveIndex(index);
+    setProgress(0);
+  };
 
   return (
     <section className="w-full px-[16px] md:px-[32px] lg:px-[64px] xl:px-[100px] py-[80px] bg-[#0E0E10]">
       <div className="w-full max-w-[380px] md:max-w-[704px] lg:max-w-[1312px] xl:max-w-[1240px] mx-auto">
+
         {/* Header */}
-        <div className="flex flex-col items-center gap-[20px] mb-[24px]">
-          <h2 className="text-[48px] font-semibold text-[#F1F2F4] leading-[1.15] tracking-[-0.4px] text-center text-balance">
+        <div className="flex flex-col items-center gap-[16px] mb-[16px]">
+          <h2 className="text-[36px] md:text-[48px] lg:text-[56px] font-semibold text-[#F1F2F4] leading-[1.1] tracking-[-0.04em] text-center text-balance max-w-[860px]">
             A Smarter Way to Find, Join, and Track Events
           </h2>
-          <p className="text-[18px] font-normal text-[#8A8D94] leading-[1.5] text-center max-w-[640px]">
+          <p className="text-[17px] font-normal text-[#8A8D94] leading-[1.55] text-center max-w-[560px]">
             Discover events that fit your goals, register fast, and stay updated, all in one place
           </p>
         </div>
@@ -87,64 +93,63 @@ export function FeaturesSection() {
           </button>
         </div>
 
-        {/* Content — Left image + Right feature list */}
-        <div className="flex flex-col lg:flex-row items-start gap-[64px]">
-          {/* Feature Image — Left */}
+        {/* Main content — Left visual + Right feature list */}
+        <div className="flex flex-col lg:flex-row items-stretch gap-[48px]">
+
+          {/* Left — Feature Visual */}
           <div
-            className="relative rounded-[28px] overflow-hidden flex-shrink-0 w-full lg:w-[500px] xl:w-[580px]"
+            className="relative rounded-[28px] overflow-hidden flex-shrink-0 w-full lg:w-[520px] xl:w-[580px] flex items-center justify-center"
             style={{
               background: '#141416',
               border: '1.2px solid #242528',
-              aspectRatio: '4/3',
+              minHeight: '380px',
             }}
           >
-            <Image
+            <img
+              key={FEATURES[activeIndex].id}
               src={FEATURES[activeIndex].visual}
               alt={FEATURES[activeIndex].title}
-              fill
-              className="object-contain transition-opacity duration-500"
-              style={{ padding: '32px' }}
+              className="w-full h-full object-contain transition-opacity duration-500"
+              style={{ padding: '32px', maxHeight: '440px' }}
             />
           </div>
 
-          {/* Feature List — Right */}
-          <div className="flex flex-col flex-1 self-center">
+          {/* Right — Feature list with animated left border indicator */}
+          <div className="flex flex-col flex-1 justify-center divide-y divide-[#242528]">
             {FEATURES.map((feature, index) => {
               const isActive = index === activeIndex;
 
               return (
-                <div key={feature.id} className="relative">
-                  {/* Top divider */}
-                  {index === 0 && (
-                    <div className="absolute top-0 left-0 right-0 h-[1px] bg-[#242528]" />
+                <div
+                  key={feature.id}
+                  className="relative flex flex-col gap-[8px] py-[24px] pl-[24px] pr-[8px] cursor-pointer transition-all duration-200"
+                  style={{
+                    borderLeft: `2px solid ${isActive ? '#F1F2F4' : '#242528'}`,
+                  }}
+                  onClick={() => handleSelect(index)}
+                >
+                  {/* Animated progress bar on left border */}
+                  {isActive && (
+                    <div
+                      className="absolute left-[-2px] top-0 w-[2px] bg-[#F1F2F4]"
+                      style={{
+                        height: `${progress}%`,
+                        transition: 'height 0.05s linear',
+                      }}
+                    />
                   )}
 
-                  <div
-                    className="relative flex flex-col justify-center gap-[10px] py-[20px] pl-[24px] pr-[8px] cursor-pointer transition-all duration-300"
-                    style={{
-                      borderLeft: '2px solid',
-                      borderLeftColor: isActive ? '#F1F2F4' : '#242528',
-                    }}
-                    onClick={() => { setActiveIndex(index); setProgress(0); }}
+                  <h3
+                    className="text-[24px] md:text-[28px] font-medium leading-[1.2] tracking-[-0.02em] transition-colors duration-200"
+                    style={{ color: isActive ? '#F1F2F4' : '#56585E' }}
                   >
-                    {/* Progress fill on left border */}
-                    {isActive && (
-                      <div
-                        className="absolute left-[-2px] top-0 w-[2px] bg-[#F1F2F4]"
-                        style={{ height: `${progress}%`, maxHeight: '100%' }}
-                      />
-                    )}
-
-                    <h3 className="text-[28px] font-medium text-[#F1F2F4] leading-[1.2] tracking-[-0.02em]">
-                      {feature.title}
-                    </h3>
-                    <p className="text-[15px] font-normal text-[#8A8D94] leading-[1.5] max-w-[400px]">
+                    {feature.title}
+                  </h3>
+                  {isActive && (
+                    <p className="text-[15px] font-normal text-[#8A8D94] leading-[1.55] max-w-[400px]">
                       {feature.description}
                     </p>
-                  </div>
-
-                  {/* Bottom divider */}
-                  <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#242528]" />
+                  )}
                 </div>
               );
             })}

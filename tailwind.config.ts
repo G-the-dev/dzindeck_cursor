@@ -12,7 +12,8 @@ const config: Config = {
       // FONT FAMILY — Figtree (Google Fonts)
       // ============================================
       fontFamily: {
-        figtree: ["var(--font-figtree)", "sans-serif"],
+        sans: ["var(--font-figtree)", "Figtree", "sans-serif"],
+        figtree: ["var(--font-figtree)", "Figtree", "sans-serif"],
       },
 
       // ============================================
