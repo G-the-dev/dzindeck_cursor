@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Button } from "@/components/ui/Button";
 import Image from "next/image";
 
 const FEATURES = [
@@ -31,8 +30,7 @@ const FEATURES = [
   },
 ];
 
-const AUTO_ADVANCE_DURATION = 1800; // 1.8 seconds per feature
-const FILL_ANIMATION_DURATION = 1800; // 1.8 seconds fill animation (fills as timer progresses)
+const AUTO_ADVANCE_DURATION = 3000;
 
 export function FeaturesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -50,21 +48,15 @@ export function FeaturesSection() {
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
-      const newProgress = Math.min((elapsed / FILL_ANIMATION_DURATION) * 100, 100);
-      
+      const newProgress = Math.min((elapsed / AUTO_ADVANCE_DURATION) * 100, 100);
       setProgress(newProgress);
-
-      if (elapsed < FILL_ANIMATION_DURATION) {
+      if (elapsed < AUTO_ADVANCE_DURATION) {
         animationFrameId = requestAnimationFrame(animate);
       }
     };
 
     animationFrameId = requestAnimationFrame(animate);
-
-    // Auto-advance timer
-    const advanceTimer = setTimeout(() => {
-      nextFeature();
-    }, AUTO_ADVANCE_DURATION);
+    const advanceTimer = setTimeout(nextFeature, AUTO_ADVANCE_DURATION);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
@@ -72,104 +64,87 @@ export function FeaturesSection() {
     };
   }, [activeIndex, nextFeature]);
 
-  const handleFeatureClick = (index: number) => {
-    setActiveIndex(index);
-    setProgress(0);
-  };
-
   return (
     <section className="w-full px-[16px] md:px-[32px] lg:px-[64px] xl:px-[100px] py-[80px] bg-[#0E0E10]">
       <div className="w-full max-w-[380px] md:max-w-[704px] lg:max-w-[1312px] xl:max-w-[1240px] mx-auto">
-        {/* Header Container */}
-        <div className="flex flex-col items-center gap-[32px] mb-[80px]">
-          {/* Header Text Container */}
-          <div className="flex flex-col items-center gap-[20px]">
-            <h2 className="text-[48px] font-semibold text-[#F1F2F4] leading-[1.208] tracking-[-0.833%] text-center" style={{ fontFamily: 'Figtree, sans-serif' }}>
-              A Smarter Way to Find, Join, and Track Events
-            </h2>
-            <p className="text-[20px] font-medium text-[#8A8D94] leading-[1.4] text-center max-w-[812px]" style={{ fontFamily: 'Figtree, sans-serif' }}>
-              Discover events that fit your goals, register fast, and stay updated, all in one place
-            </p>
-          </div>
-          <Button 
-            variant="primary" 
-            size="sm"
-            className="rounded-[16px] px-[16px] py-[12px] bg-[#F1F2F4] text-[#0E0E10] text-[16px] font-semibold border border-[#242528]"
-          >
-            Explore Events
-          </Button>
+        {/* Header */}
+        <div className="flex flex-col items-center gap-[20px] mb-[24px]">
+          <h2 className="text-[48px] font-semibold text-[#F1F2F4] leading-[1.15] tracking-[-0.4px] text-center text-balance">
+            A Smarter Way to Find, Join, and Track Events
+          </h2>
+          <p className="text-[18px] font-normal text-[#8A8D94] leading-[1.5] text-center max-w-[640px]">
+            Discover events that fit your goals, register fast, and stay updated, all in one place
+          </p>
         </div>
 
-        {/* Content Container - Side by Side */}
-        <div className="flex flex-col lg:flex-row items-center gap-[80px]">
-          {/* Feature Image - Left Side */}
-          <div 
-            className="relative rounded-[32px] overflow-hidden flex-shrink-0 order-2 lg:order-1"
+        {/* CTA */}
+        <div className="flex justify-center mb-[64px]">
+          <button
+            className="flex items-center justify-center px-[24px] py-[12px] rounded-[14px] text-[15px] font-semibold text-[#0E0E10] bg-[#F1F2F4]"
+            style={{ border: '1px solid #242528' }}
+          >
+            Explore Events
+          </button>
+        </div>
+
+        {/* Content — Left image + Right feature list */}
+        <div className="flex flex-col lg:flex-row items-start gap-[64px]">
+          {/* Feature Image — Left */}
+          <div
+            className="relative rounded-[28px] overflow-hidden flex-shrink-0 w-full lg:w-[500px] xl:w-[580px]"
             style={{
-              width: '694px',
-              height: '520px',
-              background: '#141416'
+              background: '#141416',
+              border: '1.2px solid #242528',
+              aspectRatio: '4/3',
             }}
           >
             <Image
               src={FEATURES[activeIndex].visual}
               alt={FEATURES[activeIndex].title}
               fill
-              className="object-contain transition-opacity duration-300"
-              style={{ padding: '24px' }}
+              className="object-contain transition-opacity duration-500"
+              style={{ padding: '32px' }}
             />
           </div>
 
-          {/* Feature List - Right Side */}
-          <div className="flex flex-col order-1 lg:order-2">
+          {/* Feature List — Right */}
+          <div className="flex flex-col flex-1 self-center">
             {FEATURES.map((feature, index) => {
               const isActive = index === activeIndex;
-              
+
               return (
                 <div key={feature.id} className="relative">
-                  {/* Horizontal separator line - full width */}
-                  {index !== 0 && (
-                    <div 
-                      className="absolute top-0 left-0 right-0 h-[1px] bg-[#242528]"
-                    />
+                  {/* Top divider */}
+                  {index === 0 && (
+                    <div className="absolute top-0 left-0 right-0 h-[1px] bg-[#242528]" />
                   )}
+
                   <div
-                    className="relative flex flex-col justify-center gap-[12px] py-[16px] px-[24px] cursor-pointer transition-all duration-300"
+                    className="relative flex flex-col justify-center gap-[10px] py-[20px] pl-[24px] pr-[8px] cursor-pointer transition-all duration-300"
                     style={{
                       borderLeft: '2px solid',
                       borderLeftColor: isActive ? '#F1F2F4' : '#242528',
                     }}
-                    onClick={() => handleFeatureClick(index)}
+                    onClick={() => { setActiveIndex(index); setProgress(0); }}
                   >
-                    {/* Progress Fill Line for Active Feature - grows from top */}
+                    {/* Progress fill on left border */}
                     {isActive && (
-                      <div 
+                      <div
                         className="absolute left-[-2px] top-0 w-[2px] bg-[#F1F2F4]"
-                        style={{
-                          height: `${progress}%`,
-                          maxHeight: '100%'
-                        }}
+                        style={{ height: `${progress}%`, maxHeight: '100%' }}
                       />
                     )}
-                    <h3 
-                      className="text-[32px] font-medium leading-[1.1875] tracking-[-0.625%]"
-                      style={{ 
-                        fontFamily: 'Figtree, sans-serif',
-                        color: '#F1F2F4'
-                      }}
-                    >
+
+                    <h3 className="text-[28px] font-medium text-[#F1F2F4] leading-[1.2] tracking-[-0.02em]">
                       {feature.title}
                     </h3>
-                    <p 
-                      className="text-[16px] font-normal leading-[1.5] max-w-[418px]"
-                      style={{ 
-                        fontFamily: 'Figtree, sans-serif',
-                        color: '#8A8D94'
-                      }}
-                    >
+                    <p className="text-[15px] font-normal text-[#8A8D94] leading-[1.5] max-w-[400px]">
                       {feature.description}
                     </p>
                   </div>
+
+                  {/* Bottom divider */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#242528]" />
                 </div>
               );
             })}

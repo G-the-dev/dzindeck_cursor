@@ -396,4 +396,34 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Hide scrollbar cross-browser */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ============================================
+   ANIMATIONS — Stats scrolling columns
+   ============================================ */
+@keyframes scrollUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+@keyframes scrollUpOffset {
+  from { transform: translateY(-8%); }
+  to { transform: translateY(-58%); }
+}
+
+.animate-scroll-up {
+  animation: scrollUp linear infinite;
+}
+
+.animate-scroll-up-offset {
+  animation: scrollUpOffset linear infinite;
 }

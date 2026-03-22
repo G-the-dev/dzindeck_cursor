@@ -55,155 +55,120 @@ const RECENT_EVENTS = [
   },
 ];
 
+function EventCard({ event }: { event: typeof RECENT_EVENTS[0] }) {
+  return (
+    <div
+      className="flex flex-col gap-[16px] p-[20px] rounded-[20px] flex-shrink-0"
+      style={{
+        background: '#141416',
+        border: '1px solid #242528',
+      }}
+    >
+      {/* Header */}
+      <div className="flex flex-row justify-between items-start gap-[8px]">
+        <div className="flex flex-col">
+          <h4 className="text-[16px] font-semibold text-[#F1F2F4] leading-[1.3]">
+            {event.title}
+          </h4>
+          <span className="text-[14px] font-normal text-[#8A8D94] leading-[1.4]">
+            {event.location}
+          </span>
+        </div>
+        <span
+          className="px-[10px] py-[3px] rounded-full text-[12px] font-medium text-[#C9CBD2] whitespace-nowrap flex-shrink-0"
+          style={{
+            background: '#1B1C1F',
+            border: '1px solid #242528',
+          }}
+        >
+          {event.tag}
+        </span>
+      </div>
+
+      {/* Date/Time + Description */}
+      <div className="flex flex-col gap-[4px]">
+        <span className="text-[13px] font-medium text-[#8A8D94]">
+          {event.date} • {event.time}
+        </span>
+        <p className="text-[14px] font-medium text-[#F1F2F4] leading-[1.4]">
+          {event.description}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function StatsSection() {
   return (
     <section className="w-full px-[16px] md:px-[32px] lg:px-[64px] xl:px-[100px] py-[80px] bg-[#0E0E10]">
       <div className="w-full max-w-[380px] md:max-w-[704px] lg:max-w-[1312px] xl:max-w-[1240px] mx-auto">
-        {/* Main Stats Container */}
-        <div 
-          className="flex flex-col lg:flex-row gap-[16px] rounded-[48px] p-[24px]"
+        {/* Main outer container */}
+        <div
+          className="flex flex-col lg:flex-row gap-[20px] rounded-[40px] p-[20px]"
           style={{
-            background: '#141416',
-            border: '1.2px solid #242528'
+            background: '#0E0E10',
+            border: '1.2px solid #242528',
           }}
         >
-          {/* Stats Summary - Left Side with White Background */}
-          <div 
-            className="flex flex-col justify-end p-[32px] rounded-[24px] flex-1"
+          {/* Left — Stats card (white background) */}
+          <div
+            className="flex flex-col justify-between p-[32px] rounded-[28px] flex-shrink-0 lg:w-[300px]"
             style={{ background: '#F1F2F4' }}
           >
-            <div className="flex flex-col gap-[32px]">
-              {/* Stats Grid - 2x2 */}
-              <div className="grid grid-cols-2 gap-x-[80px] gap-y-[32px]">
-                {STATS.map((stat, index) => (
-                  <div key={index} className="flex flex-col gap-[8px]">
-                    <span 
-                      className="text-[48px] font-bold leading-[1.208] tracking-[-0.833%]"
-                      style={{ 
-                        color: '#0E0E10',
-                        fontFamily: 'Figtree, sans-serif'
-                      }}
-                    >
-                      {stat.number}
-                    </span>
-                    <span 
-                      className="text-[24px] font-normal leading-[1.25] tracking-[-0.625%]"
-                      style={{ 
-                        color: '#3A3B40',
-                        fontFamily: 'Figtree, sans-serif'
-                      }}
-                    >
-                      {stat.label}
-                    </span>
-                    {/* Gradient line separator - only for first row */}
-                    {index === 0 || index === 1 ? (
-                      <div 
-                        className="absolute bottom-0 left-0 right-0 h-[2px]"
-                        style={{
-                          background: 'linear-gradient(205deg, rgba(56, 56, 56, 0) 0%, rgba(56, 56, 56, 1) 100%)'
-                        }}
-                      />
-                    ) : null}
-                  </div>
-                ))}
+            {STATS.map((stat, index) => (
+              <div key={index} className="flex flex-col">
+                {index !== 0 && (
+                  <div className="w-full h-[1px] bg-[#C9CBD2] my-[24px]" />
+                )}
+                <div className="flex flex-col gap-[4px]">
+                  <span className="text-[52px] font-bold text-[#0E0E10] leading-[1.1] tracking-[-0.04em]">
+                    {stat.number}
+                  </span>
+                  <span className="text-[16px] font-normal text-[#56585E] leading-[1.4]">
+                    {stat.label}
+                  </span>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
 
-          {/* Recent Events List - Right Side */}
-          <div 
-            className="flex flex-col gap-[16px] lg:w-[387px] h-[640px] overflow-hidden relative"
-          >
-            {/* Scrolling Event List with offset */}
-            <div 
-              className="flex flex-col gap-[16px]"
-              style={{ marginTop: '-154px' }}
-            >
-              {RECENT_EVENTS.map((event) => (
-                <div
-                  key={event.id}
-                  className="flex flex-col gap-[20px] p-[24px] rounded-[24px] cursor-pointer"
-                  style={{
-                    background: 'rgba(27, 28, 31, 0.2)',
-                    border: '1px solid #242528'
-                  }}
-                >
-                  {/* Event Header */}
-                  <div className="flex flex-row justify-between items-start gap-[10px]">
-                    <div className="flex flex-col flex-1">
-                      <h4 
-                        className="text-[20px] font-semibold leading-[1.4]"
-                        style={{ 
-                          color: '#F1F2F4',
-                          fontFamily: 'Figtree, sans-serif'
-                        }}
-                      >
-                        {event.title}
-                      </h4>
-                      <span 
-                        className="text-[16px] font-medium leading-[1.5]"
-                        style={{ 
-                          color: '#8A8D94',
-                          fontFamily: 'Figtree, sans-serif'
-                        }}
-                      >
-                        {event.location}
-                      </span>
-                    </div>
-                    <span 
-                      className="px-[12px] py-[4px] rounded-full text-[14px] font-medium whitespace-nowrap"
-                      style={{ 
-                        background: '#1B1C1F',
-                        color: '#C9CBD2',
-                        fontFamily: 'Figtree, sans-serif'
-                      }}
-                    >
-                      {event.tag}
-                    </span>
-                  </div>
-                  
-                  {/* Event Date and Info */}
-                  <div className="flex flex-col gap-[4px]">
-                    <div className="flex flex-row items-center gap-[6px]">
-                      <span 
-                        className="text-[16px] font-medium leading-[1.5]"
-                        style={{ 
-                          color: '#8A8D94',
-                          fontFamily: 'Figtree, sans-serif'
-                        }}
-                      >
-                        {event.date}
-                      </span>
-                      <span 
-                        className="w-[4px] h-[4px] rounded-full"
-                        style={{ background: '#8A8D94' }}
-                      />
-                      <span 
-                        className="text-[16px] font-medium leading-[1.5]"
-                        style={{ 
-                          color: '#8A8D94',
-                          fontFamily: 'Figtree, sans-serif'
-                        }}
-                      >
-                        {event.time}
-                      </span>
-                    </div>
-                    <p 
-                      className="text-[16px] font-medium leading-[1.5]"
-                      style={{ 
-                        color: '#F1F2F4',
-                        fontFamily: 'Figtree, sans-serif'
-                      }}
-                    >
-                      {event.description}
-                    </p>
-                  </div>
+          {/* Right — Two scrolling columns of event cards */}
+          <div className="flex-1 overflow-hidden rounded-[24px] relative" style={{ height: '600px' }}>
+            {/* Fade mask top */}
+            <div
+              className="absolute top-0 left-0 right-0 h-[80px] pointer-events-none z-10"
+              style={{ background: 'linear-gradient(to bottom, #0E0E10, transparent)' }}
+            />
+            {/* Fade mask bottom */}
+            <div
+              className="absolute bottom-0 left-0 right-0 h-[80px] pointer-events-none z-10"
+              style={{ background: 'linear-gradient(to top, #0E0E10, transparent)' }}
+            />
+
+            <div className="flex flex-row gap-[16px] h-full">
+              {/* Column 1 — scrolls up */}
+              <div className="flex-1 flex flex-col gap-[16px] overflow-hidden">
+                <div className="flex flex-col gap-[16px] animate-scroll-up" style={{ animationDuration: '18s' }}>
+                  {[...RECENT_EVENTS, ...RECENT_EVENTS].map((event, i) => (
+                    <EventCard key={`col1-${i}`} event={event} />
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              {/* Column 2 — scrolls up slightly offset */}
+              <div className="flex-1 flex flex-col gap-[16px] overflow-hidden">
+                <div className="flex flex-col gap-[16px] animate-scroll-up-offset" style={{ animationDuration: '22s' }}>
+                  {[...RECENT_EVENTS.slice(2), ...RECENT_EVENTS, ...RECENT_EVENTS].map((event, i) => (
+                    <EventCard key={`col2-${i}`} event={event} />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+
     </section>
   );
 }
